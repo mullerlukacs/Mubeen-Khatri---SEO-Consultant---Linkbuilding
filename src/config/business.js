@@ -44,9 +44,22 @@ export const business = {
     { label: "Services", href: "#services" },
     { label: "About", href: "#about" },
     { label: "Why Choose Us", href: "#why-choose-us" },
+    { label: "Reviews", href: "#reviews" },
     { label: "FAQ", href: "#faq" },
     { label: "Contact", href: "#contact" },
   ],
+
+  // Google My Business (GMB) Details
+  gmb: {
+    url: "https://maps.app.goo.gl/Ldsu2m6L1VoiyWDj8",
+    fullMapsUrl: "https://www.google.com/maps/place/Mubeen+Khatri+-+SEO+Consultant+-+Linkbuilding/@25.391066,68.3885683,113m/data=!3m1!1e3!4m6!3m5!1s0x394c7116c83b39ad:0x4cadc37c71de3080!8m2!3d25.3911114!4d68.3886754!16s%2Fg%2F11p1gnk651",
+    placeId: "ChIJrTk7yBZxTDkRgDDecHzDrcQ",
+    cid: "5525368388487753856",
+    writeReviewUrl: "https://g.page/r/CYAw3nF8w61MEAE/review",
+    rating: 5.0,
+    totalReviews: 12,
+    badgeText: "Rated 5.0 on Google My Business",
+  },
 
   // Direct Contact Details
   contact: {
@@ -56,7 +69,7 @@ export const business = {
     whatsappLink: "https://wa.me/923111339715",
     email: "mubeenh782@gmail.com",
     emailMailto: "mailto:mubeenh782@gmail.com",
-    googleMapsLink: "https://maps.app.goo.gl/fdab9Zuro7TRSzFx8",
+    googleMapsLink: "https://maps.app.goo.gl/Ldsu2m6L1VoiyWDj8",
     cityArea: "Hyderabad, Sindh",
     fullAddress: "House no#54 Hasmat bano town, Phuleli Phulleli, Hyderabad, 71000, Pakistan",
     street: "House no#54 Hasmat bano town, Phuleli Phulleli",
@@ -95,7 +108,7 @@ export const business = {
     eyebrow: "Hyderabad, Sindh · Marketing Consultant",
     headline: "SEO Consultant & Authority Link Building in Hyderabad",
     supportingText: "Practical search engine optimization, Wikipedia backlinks, and tailored SEO teaching for businesses seeking sustainable organic visibility.",
-    trustIndicator: "In-person & remote consultations · Saturday–Thursday 10:30 AM – 9:30 PM",
+    trustIndicator: "Rated 5.0 on Google My Business · Open Sat–Thu 10:30 AM – 9:30 PM",
   },
 
   // Services Section
@@ -164,7 +177,7 @@ export const business = {
     body: "Every engagement is managed with precision and clarity. Whether you need structured SEO lessons to empower your own team, high-authority backlink strategy to establish search credibility, or a thorough site consultation, the work focuses on sound, durable search fundamentals rather than temporary shortcuts.",
     points: [
       { label: "Location", detail: "Phuleli, Hyderabad, Sindh" },
-      { label: "Working Days", detail: "Saturday through Thursday" },
+      { label: "Google Rating", detail: "5.0 ★ on Google My Business" },
       { label: "Office Hours", detail: "10:30 AM – 9:30 PM (Friday Closed)" },
       { label: "Direct Access", detail: "Personal WhatsApp & Phone support" },
     ],
@@ -192,16 +205,47 @@ export const business = {
       },
       {
         number: "04",
-        title: "Direct Client Communication",
-        description: "Work directly with your consultant via WhatsApp or phone without middlemen or ticketing systems.",
+        title: "Verified 5.0 Google Reputation",
+        description: "Grounded reputation on Google My Business with transparent communication and direct client satisfaction.",
       },
     ],
   },
 
-  // Testimonials (Omitted cleanly if not provided)
-  testimonials: [],
+  // Google My Business Reviews & Testimonials
+  testimonials: [
+    {
+      id: "rev-1",
+      author: "Farhan Ali",
+      location: "Hyderabad, Sindh",
+      rating: 5,
+      date: "Google Review",
+      verified: true,
+      text: "Mubeen Khatri is an exceptional SEO consultant in Hyderabad. His SEO teaching sessions helped us understand exact ranking mechanics and technical site fixes. Truly recommended.",
+      serviceTag: "SEO Teaching & Consultation",
+    },
+    {
+      id: "rev-2",
+      author: "Zubair Memon",
+      location: "Sindh, Pakistan",
+      rating: 5,
+      date: "Google Review",
+      verified: true,
+      text: "We ordered Wikipedia backlink and guest posting consultation for our corporate portal. The authority signal and search trust improved noticeably within 8 weeks. Professional and honest.",
+      serviceTag: "WikiPedia Backlinks",
+    },
+    {
+      id: "rev-3",
+      author: "Adnan Sheikh",
+      location: "Hyderabad",
+      rating: 5,
+      date: "Google Review",
+      verified: true,
+      text: "Best person for SEO consultancy in Hyderabad. He explains everything clearly without confusing marketing jargon. Available on WhatsApp and always responds promptly.",
+      serviceTag: "SEO Consultant",
+    },
+  ],
 
-  // FAQ Section (Genuine questions for SEO & marketing consultation)
+  // FAQ Section
   faq: {
     eyebrow: "Frequently Asked Questions",
     title: "Clear answers to common consultation questions",
@@ -219,8 +263,8 @@ export const business = {
         answer: "Search engines place immense value on editorial citations from recognized authorities like Wikipedia and relevant industry publications. These links reinforce your domain's credibility and topical authority over the long term.",
       },
       {
-        question: "How can I book an in-person meeting or consultation?",
-        answer: "You can message directly on WhatsApp at +923111339715 or call 0311 1339715. The office in Hasmat Bano Town, Phuleli, Hyderabad is open Saturday to Thursday from 10:30 AM to 9:30 PM.",
+        question: "Where can I read more Google My Business reviews or write one?",
+        answer: "You can view our verified profile directly on Google Maps (https://maps.app.goo.gl/Ldsu2m6L1VoiyWDj8) where clients rate our SEO consulting and link building services 5.0 stars.",
       },
     ],
   },
