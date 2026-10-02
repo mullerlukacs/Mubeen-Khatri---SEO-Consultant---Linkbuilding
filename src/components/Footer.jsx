@@ -2,7 +2,7 @@ import React from 'react';
 import { business } from '../config/business';
 import SocialLinks from './ui/SocialLinks';
 
-export default function Footer() {
+export default function Footer({ onOpenAdmin }) {
   const currentYear = new Date().getFullYear();
 
   return (
@@ -209,8 +209,36 @@ export default function Footer() {
           <div>
             © {currentYear} {business.footer.copyrightNotice}
           </div>
-          <div>
-            {business.tagline}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <span>{business.tagline}</span>
+            {onOpenAdmin && (
+              <button
+                type="button"
+                onClick={onOpenAdmin}
+                title="Owner Login / Admin Access"
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#635E59',
+                  cursor: 'pointer',
+                  fontSize: '0.75rem',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  padding: '2px 6px',
+                  borderRadius: '4px',
+                  transition: 'color var(--transition-fast)',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-primary)')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = '#635E59')}
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+                Admin
+              </button>
+            )}
           </div>
         </div>
       </div>

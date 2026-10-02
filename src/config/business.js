@@ -42,6 +42,7 @@ export const business = {
   // Navigation Links
   navLinks: [
     { label: "Services", href: "#services" },
+    { label: "Add-ons", href: "#addons" },
     { label: "About", href: "#about" },
     { label: "Why Choose Us", href: "#why-choose-us" },
     { label: "Reviews", href: "#reviews" },

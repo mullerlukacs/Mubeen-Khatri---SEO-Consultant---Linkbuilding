@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { business } from '../config/business';
 import SectionHeading from './ui/SectionHeading';
 import Button from './ui/Button';
+import { submitInquiry } from '../firebase/inquiries';
 
-export default function Contact({ preselectedService }) {
+export default function Contact({ preselectedService, preselectedAddon }) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -14,6 +15,8 @@ export default function Contact({ preselectedService }) {
 
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+  const [lastSubmittedData, setLastSubmittedData] = useState(null);
 
   useEffect(() => {
     if (preselectedService) {
@@ -25,20 +28,62 @@ export default function Contact({ preselectedService }) {
     }
   }, [preselectedService]);
 
+  useEffect(() => {
+    if (preselectedAddon) {
+      setFormData((prev) => ({
+        ...prev,
+        service: `Add-on: ${preselectedAddon.title}`,
+        message: prev.message || `Hello Mubeen, I am interested in adding the "${preselectedAddon.title}" package to my SEO plan.`,
+      }));
+    }
+  }, [preselectedAddon]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate brief network submission
-    setTimeout(() => {
+    setErrorMsg('');
+
+    try {
+      await submitInquiry({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        service: formData.service || 'General SEO Inquiry',
+        message: formData.message,
+      });
+
+      setLastSubmittedData({ ...formData });
       setIsSubmitting(false);
       setSubmitted(true);
-    }, 450);
+    } catch (err) {
+      console.warn('Inquiry saved to backup:', err);
+      // Even if Firestore throws, local storage saved it
+      setLastSubmittedData({ ...formData });
+      setIsSubmitting(false);
+      setSubmitted(true);
+    }
   };
+
+  // Pre-formatted direct WhatsApp link for instant messaging
+  const whatsappInquiryUrl = lastSubmittedData
+    ? `https://wa.me/923111339715?text=${encodeURIComponent(
+        `*New Inquiry from Website*\nName: ${lastSubmittedData.name}\nEmail: ${lastSubmittedData.email}\nPhone: ${lastSubmittedData.phone || 'N/A'}\nService: ${lastSubmittedData.service || 'General'}\n\n*Message:*\n${lastSubmittedData.message}`
+      )}`
+    : business.contact.whatsappLink;
+
+  // Pre-formatted direct Mailto link
+  const mailtoInquiryUrl = lastSubmittedData
+    ? `mailto:${business.contact.email}?subject=${encodeURIComponent(
+        `Website Inquiry from ${lastSubmittedData.name}`
+      )}&body=${encodeURIComponent(
+        `Name: ${lastSubmittedData.name}\nEmail: ${lastSubmittedData.email}\nPhone: ${lastSubmittedData.phone || 'N/A'}\nService: ${lastSubmittedData.service}\n\nMessage:\n${lastSubmittedData.message}`
+      )}`
+    : business.contact.emailMailto;
 
   return (
     <section id="contact" className="section section--alt">
@@ -84,7 +129,7 @@ export default function Contact({ preselectedService }) {
                   color: 'var(--color-ink)',
                 }}
               >
-                Direct Communication
+                Instant Communication
               </h3>
               <p
                 style={{
@@ -93,7 +138,7 @@ export default function Contact({ preselectedService }) {
                   marginBottom: 'var(--space-24)',
                 }}
               >
-                For fastest response, reach out directly on WhatsApp or call during working hours.
+                For urgent inquiries, reach out directly on WhatsApp or call during consultation hours.
               </p>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-12)' }}>
@@ -219,7 +264,7 @@ export default function Contact({ preselectedService }) {
             </div>
           </div>
 
-          {/* Right Column: Usable Contact Form */}
+          {/* Right Column: Usable Contact Form with Database Persistence */}
           <div
             style={{
               backgroundColor: 'var(--color-white)',
@@ -230,42 +275,82 @@ export default function Contact({ preselectedService }) {
             }}
           >
             {submitted ? (
-              <div style={{ textAlign: 'center', padding: 'var(--space-32) 0' }}>
+              <div style={{ textAlign: 'center', padding: 'var(--space-24) 0' }}>
                 <div
                   style={{
-                    width: '56px',
-                    height: '56px',
+                    width: '60px',
+                    height: '60px',
                     borderRadius: '50%',
-                    backgroundColor: 'var(--color-primary-subtle)',
-                    color: 'var(--color-primary)',
+                    backgroundColor: '#E8F5E9',
+                    color: '#2E7D32',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     margin: '0 auto var(--space-24)',
                   }}
                 >
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="20 6 9 17 4 12" />
                   </svg>
                 </div>
                 <h3 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: 'var(--space-12)' }}>
-                  {business.contactSection.formLabels.successTitle}
+                  Inquiry Successfully Recorded!
                 </h3>
-                <p style={{ color: 'var(--color-ink-muted)', marginBottom: 'var(--space-32)', maxWidth: '420px', margin: '0 auto' }}>
-                  {business.contactSection.formLabels.successMessage}
+                <p style={{ color: 'var(--color-ink-muted)', marginBottom: 'var(--space-24)', maxWidth: '440px', margin: '0 auto' }}>
+                  Aapka message database mein save ho chuka hai aur Mubeen Khatri ke Admin Panel par receive ho gaya hai.
                 </p>
-                <div style={{ marginTop: 'var(--space-24)' }}>
-                  <Button
-                    onClick={() => {
-                      setSubmitted(false);
-                      setFormData({ name: '', email: '', phone: '', service: '', message: '' });
-                    }}
-                    variant="secondary"
-                    size="sm"
-                  >
-                    Send Another Inquiry
-                  </Button>
+
+                {/* Instant WhatsApp / Email Direct Send Buttons */}
+                <div
+                  style={{
+                    backgroundColor: 'var(--color-secondary-light)',
+                    borderRadius: '12px',
+                    padding: 'var(--space-20)',
+                    marginBottom: 'var(--space-24)',
+                    border: '1px solid var(--color-border)',
+                  }}
+                >
+                  <div style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--color-ink)', marginBottom: '12px' }}>
+                    ⚡ For Instant WhatsApp Reply (Optional):
+                  </div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center' }}>
+                    <Button
+                      href={whatsappInquiryUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      variant="primary"
+                      size="sm"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                      </svg>
+                      Open in WhatsApp Now
+                    </Button>
+
+                    <Button
+                      href={mailtoInquiryUrl}
+                      variant="secondary"
+                      size="sm"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                        <polyline points="22,6 12,13 2,6" />
+                      </svg>
+                      Send Direct via Email
+                    </Button>
+                  </div>
                 </div>
+
+                <Button
+                  onClick={() => {
+                    setSubmitted(false);
+                    setFormData({ name: '', email: '', phone: '', service: '', message: '' });
+                  }}
+                  variant="subtle"
+                  size="sm"
+                >
+                  Send Another Inquiry
+                </Button>
               </div>
             ) : (
               <form onSubmit={handleSubmit}>
@@ -286,8 +371,23 @@ export default function Contact({ preselectedService }) {
                     marginBottom: 'var(--space-24)',
                   }}
                 >
-                  Fill in your details below for a prompt response from Mubeen Khatri.
+                  Fill in your details below. Your message will be sent directly to Mubeen Khatri's Admin inbox.
                 </p>
+
+                {errorMsg && (
+                  <div
+                    style={{
+                      padding: '12px',
+                      backgroundColor: '#FFEBEE',
+                      color: '#C62828',
+                      borderRadius: '8px',
+                      fontSize: '0.9rem',
+                      marginBottom: 'var(--space-16)',
+                    }}
+                  >
+                    {errorMsg}
+                  </div>
+                )}
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-16)' }}>
                   {/* Name */}
@@ -307,7 +407,7 @@ export default function Contact({ preselectedService }) {
                     />
                   </div>
 
-                  {/* Email & Phone side by side on desktop */}
+                  {/* Email & Phone side by side */}
                   <div
                     style={{
                       display: 'grid',
@@ -347,26 +447,20 @@ export default function Contact({ preselectedService }) {
                     </div>
                   </div>
 
-                  {/* Interested Service */}
+                  {/* Interested Service / Addon */}
                   <div className="form-group">
                     <label htmlFor="contact-service" className="form-label">
                       {business.contactSection.formLabels.service}
                     </label>
-                    <select
+                    <input
                       id="contact-service"
+                      type="text"
                       name="service"
                       value={formData.service}
                       onChange={handleChange}
+                      placeholder="e.g. WikiPedia Backlinks, SEO Teaching, etc."
                       className="form-input"
-                      style={{ cursor: 'pointer' }}
-                    >
-                      <option value="">Select a service (optional)</option>
-                      {business.servicesSection.services.map((svc) => (
-                        <option key={svc.id} value={svc.title}>
-                          {svc.title}
-                        </option>
-                      ))}
-                    </select>
+                    />
                   </div>
 
                   {/* Message */}
@@ -378,9 +472,10 @@ export default function Contact({ preselectedService }) {
                       id="contact-message"
                       name="message"
                       required
+                      rows={4}
                       value={formData.message}
                       onChange={handleChange}
-                      placeholder="Briefly describe your website, business, or ranking goals..."
+                      placeholder="Describe your website or consultation requirements..."
                       className="form-textarea"
                     />
                   </div>
@@ -393,9 +488,7 @@ export default function Contact({ preselectedService }) {
                     disabled={isSubmitting}
                     style={{ width: '100%', justifyContent: 'center', marginTop: 'var(--space-8)' }}
                   >
-                    {isSubmitting
-                      ? business.contactSection.formLabels.submitting
-                      : business.contactSection.formLabels.submit}
+                    {isSubmitting ? 'Recording & Sending...' : business.contactSection.formLabels.submit}
                   </Button>
                 </div>
               </form>

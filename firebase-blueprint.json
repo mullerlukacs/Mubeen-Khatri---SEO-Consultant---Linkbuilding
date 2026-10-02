@@ -1,0 +1,136 @@
+{
+  "entities": {
+    "Inquiry": {
+      "title": "Inquiry",
+      "description": "Contact form submissions from potential clients and students.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Full name of the sender",
+          "maxLength": 100
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of the sender",
+          "maxLength": 150
+        },
+        "phone": {
+          "type": "string",
+          "description": "Contact phone or WhatsApp number",
+          "maxLength": 30
+        },
+        "service": {
+          "type": "string",
+          "description": "Selected service or general inquiry",
+          "maxLength": 100
+        },
+        "message": {
+          "type": "string",
+          "description": "Inquiry details or project description",
+          "maxLength": 3000
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the inquiry was submitted"
+        },
+        "status": {
+          "type": "string",
+          "description": "Read / reply status",
+          "enum": ["new", "contacted", "archived"]
+        }
+      },
+      "required": ["name", "email", "message", "createdAt"]
+    },
+    "Addon": {
+      "title": "Addon",
+      "description": "Customizable SEO and link building service addons.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Name of the addon service",
+          "maxLength": 120
+        },
+        "description": {
+          "type": "string",
+          "description": "Details of what is included",
+          "maxLength": 500
+        },
+        "price": {
+          "type": "string",
+          "description": "Price or estimate",
+          "maxLength": 50
+        },
+        "category": {
+          "type": "string",
+          "description": "Category tag",
+          "maxLength": 50
+        },
+        "isActive": {
+          "type": "boolean",
+          "description": "Whether addon is visible on the site"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last update timestamp"
+        }
+      },
+      "required": ["title", "description", "isActive"]
+    },
+    "SiteSettings": {
+      "title": "SiteSettings",
+      "description": "Dynamic owner settings and announcements.",
+      "type": "object",
+      "properties": {
+        "announcement": {
+          "type": "string",
+          "description": "Top announcement banner text",
+          "maxLength": 300
+        },
+        "showAnnouncement": {
+          "type": "boolean",
+          "description": "Whether announcement is shown"
+        },
+        "customPhone": {
+          "type": "string",
+          "description": "Phone override",
+          "maxLength": 30
+        },
+        "customWhatsApp": {
+          "type": "string",
+          "description": "WhatsApp override",
+          "maxLength": 30
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of settings change"
+        }
+      },
+      "required": ["showAnnouncement"]
+    }
+  },
+  "firestore": {
+    "/inquiries/{inquiryId}": {
+      "schema": {
+        "$ref": "#/entities/Inquiry"
+      },
+      "description": "Client inquiry submissions."
+    },
+    "/addons/{addonId}": {
+      "schema": {
+        "$ref": "#/entities/Addon"
+      },
+      "description": "Customizable SEO addons."
+    },
+    "/site_settings/{settingId}": {
+      "schema": {
+        "$ref": "#/entities/SiteSettings"
+      },
+      "description": "Global dynamic site overrides."
+    }
+  }
+}
