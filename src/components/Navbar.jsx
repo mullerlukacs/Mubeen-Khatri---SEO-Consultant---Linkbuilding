@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { business } from '../config/business';
 import Button from './ui/Button';
+import SocialLinks from './ui/SocialLinks';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -74,7 +75,7 @@ export default function Navbar() {
           style={{
             display: 'none',
             alignItems: 'center',
-            gap: '32px',
+            gap: '28px',
           }}
           className="desktop-nav"
         >
@@ -102,8 +103,13 @@ export default function Navbar() {
           ))}
         </nav>
 
-        {/* Zone 3: Primary Action & Mobile Hamburger */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+        {/* Zone 3: Social Icons & Primary Action */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+          {/* Header Social Icons (Desktop) */}
+          <div className="desktop-socials">
+            <SocialLinks variant="header" />
+          </div>
+
           <div className="desktop-cta">
             <Button
               href={business.mainCta.href}
@@ -172,7 +178,7 @@ export default function Navbar() {
               display: 'flex',
               flexDirection: 'column',
               gap: '16px',
-              marginBottom: '24px',
+              marginBottom: '20px',
             }}
           >
             {business.navLinks.map((link) => (
@@ -191,6 +197,23 @@ export default function Navbar() {
                 {link.label}
               </a>
             ))}
+          </div>
+
+          {/* Mobile Social Links */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: '12px 0',
+              borderBottom: '1px solid var(--color-border-subtle)',
+              marginBottom: '20px',
+            }}
+          >
+            <span style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--color-ink-muted)' }}>
+              Follow Us
+            </span>
+            <SocialLinks variant="header" />
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -219,13 +242,15 @@ export default function Navbar() {
       )}
 
       <style>{`
-        @media (min-width: 860px) {
+        @media (min-width: 992px) {
           .desktop-nav { display: flex !important; }
+          .desktop-socials { display: flex !important; }
           .desktop-cta { display: block !important; }
           .mobile-hamburger-btn { display: none !important; }
         }
-        @media (max-width: 859px) {
+        @media (max-width: 991px) {
           .desktop-nav { display: none !important; }
+          .desktop-socials { display: none !important; }
           .desktop-cta { display: none !important; }
           .mobile-hamburger-btn { display: flex !important; }
         }

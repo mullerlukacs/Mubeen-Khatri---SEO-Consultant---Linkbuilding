@@ -297,4 +297,33 @@ export const business = {
     description: "Independent SEO consultant, Wikipedia backlink acquisition, and digital marketing consulting based in Hyderabad, Sindh, Pakistan.",
     copyrightNotice: "Mubeen Khatri - SEO Consultant - Linkbuilding. All rights reserved.",
   },
+
+  // Social Media Channels
+  socials: [
+    {
+      id: "facebook",
+      name: "Facebook",
+      url: "https://web.facebook.com/king.khatri.52/",
+    },
+    {
+      id: "tiktok",
+      name: "TikTok",
+      url: "https://tiktok.com/@mubeenh031",
+    },
+    {
+      id: "instagram",
+      name: "Instagram",
+      url: "https://www.instagram.com/vezoneseo/",
+    },
+    {
+      id: "linkedin",
+      name: "LinkedIn",
+      url: "https://www.linkedin.com/in/ceo-vezoneseo/",
+    },
+    {
+      id: "x",
+      name: "X (Twitter)",
+      url: "https://x.com/mmubeenh",
+    },
+  ],
 };

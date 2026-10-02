@@ -1,5 +1,6 @@
 import React from 'react';
 import { business } from '../config/business';
+import SocialLinks from './ui/SocialLinks';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -24,7 +25,7 @@ export default function Footer() {
           }}
           className="footer-grid"
         >
-          {/* Col 1: Wordmark & Narrative */}
+          {/* Col 1: Wordmark & Narrative & Social Icons */}
           <div style={{ maxWidth: '340px' }}>
             <a
               href="#"
@@ -61,8 +62,25 @@ export default function Footer() {
             >
               {business.footer.description}
             </p>
-            <div style={{ fontSize: '0.85rem', color: '#D95B16', fontWeight: 600 }}>
+            <div style={{ fontSize: '0.85rem', color: '#D95B16', fontWeight: 600, marginBottom: 'var(--space-16)' }}>
               {business.type} · {business.contact.cityArea}
+            </div>
+
+            {/* Social Icons in Footer */}
+            <div>
+              <div
+                style={{
+                  fontSize: '0.75rem',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.08em',
+                  color: '#8E877E',
+                  marginBottom: '10px',
+                  fontWeight: 600,
+                }}
+              >
+                Connect With Mubeen
+              </div>
+              <SocialLinks variant="footer" />
             </div>
           </div>
 
